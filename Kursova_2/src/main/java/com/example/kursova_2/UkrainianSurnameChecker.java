@@ -20,6 +20,9 @@ import javafx.util.Duration;
 
 import java.util.Random;
 
+import org.python.util.PythonInterpreter;
+
+
 public class UkrainianSurnameChecker extends Application {
 
     @Override
@@ -124,9 +127,12 @@ public class UkrainianSurnameChecker extends Application {
     private boolean checkUkrainianSurname(String surname) {
         // Приклад: перевірка за суфіксом "ко"
         return surname.endsWith("ко");
+
     }
 
     public static void main(String[] args) {
         launch(args);
+        PythonInterpreter pythonInterpretater = new PythonInterpreter();
+        pythonInterpretater.exec('print(It is hot today)');
     }
 }
