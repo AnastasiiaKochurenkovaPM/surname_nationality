@@ -18,9 +18,12 @@ import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.Random;
 
-import org.python.util.PythonInterpreter;
+//import org.python.util.PythonInterpreter;
 
 
 public class UkrainianSurnameChecker extends Application {
@@ -132,7 +135,40 @@ public class UkrainianSurnameChecker extends Application {
 
     public static void main(String[] args) {
         launch(args);
-        PythonInterpreter pythonInterpretater = new PythonInterpreter();
-        pythonInterpretater.exec('print(It is hot today)');
+
+        String pythonScriptPath = "C:\\Users\\KV-User\\Desktop\\surname_nationality\\Kursova_2\\server\\predict.py";
+        String argument = "Kravchuk";
+
+        try {
+            ProcessBuilder processBuilder = new ProcessBuilder("python", pythonScriptPath, argument);
+            Process p = processBuilder.start();
+
+            BufferedReader stdInput = new BufferedReader(new InputStreamReader(p.getInputStream()));
+            BufferedReader stdError = new BufferedReader(new InputStreamReader(p.getErrorStream()));
+
+            // Collect the output of the command
+            StringBuilder output = new StringBuilder();
+
+            // read the output from the command
+            System.out.println("Here is the standard output of the command:\n");
+            String s;
+            while ((s = stdInput.readLine()) != null) {
+                System.out.println(s);
+                output.append(s).append("\n");
+            }
+
+            // read any errors from the attempted command
+            System.out.println("Here is the standard error of the command (if any):\n");
+            while ((s = stdError.readLine()) != null) {
+                System.err.println(s);
+            }
+
+            // You can now use the 'output' StringBuilder as needed
+        } catch (IOException e) {
+            System.out.println("Exception happened - here's what I know: ");
+            e.printStackTrace();
+            System.exit(-1);
+        }
     }
 }
+
