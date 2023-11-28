@@ -14,7 +14,7 @@ def evaluate(line_tensor):
     
     return output
 
-def predict(line, n_predictions=3):
+def predict(line, n_predictions=1):
     output = evaluate(Variable(lineToTensor(line)))
 
     # Get top N categories
@@ -24,7 +24,7 @@ def predict(line, n_predictions=3):
     for i in range(n_predictions):
         value = topv[0][i]
         category_index = topi[0][i]
-        print('(%.2f) %s' % (value, all_categories[category_index]))
+        print((all_categories[category_index]))
         predictions.append([value, all_categories[category_index]])
 
     return predictions

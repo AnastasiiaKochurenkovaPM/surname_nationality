@@ -10,6 +10,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.Font;
@@ -54,49 +55,138 @@ public class UkrainianSurnameChecker extends Application {
         }
 
         // Додавання заголовка
-        Label titleLabel = new Label("Перевірка чи Ваше прізвище українське");
-        titleLabel.setFont(Font.font("Arial", FontWeight.BOLD, 28));
-        titleLabel.setTextFill(Color.DARKBLUE);
-        titleLabel.setLayoutX(20);
-        titleLabel.setLayoutY(40);
+        Label titleLabel = new Label("Checking the origin of your surname");
+        titleLabel.setFont(Font.font("Segoe Print", FontWeight.BOLD, 38));
+        titleLabel.setTextFill(Color.web("#336699"));
+        titleLabel.setLayoutX(screenWidth/10);
+        titleLabel.setLayoutY(screenHeight/3.5);
         root.getChildren().add(titleLabel);
 
         // Додавання поля для введення прізвища
         TextField surnameField = new TextField();
-        surnameField.setPromptText("Введіть прізвище");
-        surnameField.setStyle("-fx-background-radius: 20;");
-        surnameField.setLayoutX(20);
-        surnameField.setLayoutY(100);
+        surnameField.setPromptText("Enter your last name");
+        surnameField.setStyle("-fx-background-radius: 40; -fx-pref-width: 400px; -fx-pref-height: 50px;");
+        surnameField.setLayoutX(screenWidth/10);
+        surnameField.setLayoutY(screenHeight/2.2);
         root.getChildren().add(surnameField);
 
+
         // Додавання кнопки "Перевірка"
-        Button checkButton = new Button("Перевірка");
-        checkButton.setStyle("-fx-background-radius: 20;");
-        checkButton.setLayoutX(20);
-        checkButton.setLayoutY(150);
+        Button checkButton = new Button("Сheck");
+        checkButton.setStyle("-fx-background-radius: 40; -fx-pref-width: 100px; -fx-pref-height: 50px;");
+        checkButton.setLayoutX(screenWidth/2.6);
+        checkButton.setLayoutY(screenHeight/2.2);
         root.getChildren().add(checkButton);
 
         // Відображення результату перевірки
+//        Label resultLabel = new Label();
+//        resultLabel.setFont(Font.font("Comic Sans MS", 16));
+//        resultLabel.setTextFill(Color.BLACK);
+//        resultLabel.setLayoutX(screenWidth/5);
+//        resultLabel.setLayoutY(screenHeight/1.77);
+//        root.getChildren().add(resultLabel);
+
+
+        // Відображення результату перевірки
         Label resultLabel = new Label();
-        resultLabel.setFont(Font.font("Arial", FontWeight.BOLD, 16));
-        resultLabel.setTextFill(Color.BLACK);
-        resultLabel.setLayoutX(20);
-        resultLabel.setLayoutY(200);
+//        resultLabel.setFont(Font.font("Arial", FontWeight.BOLD, 16));
+//        resultLabel.setTextFill(Color.BLACK);
+//        resultLabel.setLayoutX(20);
+//        resultLabel.setLayoutY(200);
+//        root.getChildren().add(resultLabel);
+        resultLabel.setFont(Font.font("Comic Sans MS", 20));
+        resultLabel.setTextFill(Color.web("#336699"));
+        resultLabel.setLayoutX(screenWidth/10);
+        resultLabel.setLayoutY(screenHeight/1.65);
+        resultLabel.setWrapText(true); // Додайте цей рядок
         root.getChildren().add(resultLabel);
+
+        Label resultLabelTitle = new Label();
+        resultLabelTitle.setFont(Font.font("Comic Sans MS", FontWeight.BOLD, 20));
+        resultLabelTitle.setTextFill(Color.web("#336699"));
+        resultLabelTitle.setLayoutX(screenWidth/10);
+        resultLabelTitle.setLayoutY(screenHeight/1.77);
+        root.getChildren().add(resultLabelTitle);
 
         // Обробник події для кнопки "Перевірка"
         checkButton.setOnAction(event -> {
             String surname = surnameField.getText().trim().toLowerCase();
-            boolean isUkrainian = checkUkrainianSurname(surname);
 
-            if (isUkrainian) {
-                resultLabel.setText("Так, прізвище українське");
-            } else {
-                resultLabel.setText("Ні, ваше прізвище має інакше походження");
+            String pythonScriptPath = "C:\\Users\\KV-User\\Desktop\\surname_nationality\\Kursova_2\\server\\predict.py";
+            String argument = surname;
+
+
+            try {
+                ProcessBuilder processBuilder = new ProcessBuilder("python", pythonScriptPath, argument);
+                Process p = processBuilder.start();
+
+                BufferedReader stdInput = new BufferedReader(new InputStreamReader(p.getInputStream()));
+                BufferedReader stdError = new BufferedReader(new InputStreamReader(p.getErrorStream()));
+
+                // Collect the output of the command
+                StringBuilder output = new StringBuilder();
+
+                // read the output from the command
+//                System.out.println("Here is the standard output of the command: for surname " + surname);
+//                resultLabelTitle.setText("Походження вашого прізвища:");
+//                String s;
+//
+//                while ((s = stdInput.readLine()) != null) {
+//
+//                    System.out.println(s);
+//                    resultLabel.setText(s);
+//
+//                }
+                resultLabelTitle.setText("Origin of your surname:");
+                StringBuilder stringBuilder = new StringBuilder();
+
+                String s;
+                while ((s = stdInput.readLine()) != null) {
+                    //System.out.println(s);
+//                    stringBuilder.append(s).append("\n");
+                    stringBuilder.append(s).append("\n");
+                    resultLabel.setText(stringBuilder.toString());
+                }
+
+                System.out.println(stringBuilder.append(s).append("\n"));
+
+
+
+                // read any errors from the attempted command
+                System.out.println("Here is the standard error of the command (if any):\n");
+                while ((s = stdError.readLine()) != null) {
+                    System.err.println(s);
+                }
+
+                // You can now use the 'output' StringBuilder as needed
+            } catch (IOException e) {
+                System.out.println("Exception happened - here's what I know: ");
+                e.printStackTrace();
+                System.exit(-1);
+            }
+
+
+//            if (isUkrainian) {
+//                resultLabel.setText("Так, прізвище українське");
+//            } else {
+//                resultLabel.setText("Ні, ваше прізвище має інакше походження");
+//            }
+        });
+
+        primaryStage.setTitle("Checking the origin of the surname");
+        primaryStage.setScene(scene);
+        primaryStage.show();
+
+        // Додаємо обробник події для кнопки "esc"
+        scene.setOnKeyPressed(event -> {
+            if (event.getCode() == KeyCode.ESCAPE) {
+                primaryStage.close();
             }
         });
 
-        primaryStage.setTitle("Перевірка українського прізвища");
+        // Встановлюємо, щоб вікно завжди було на повний екран
+        primaryStage.setFullScreen(true);
+        primaryStage.setTitle("Checking the origin of the surname");
         primaryStage.setScene(scene);
         primaryStage.show();
     }
@@ -126,49 +216,9 @@ public class UkrainianSurnameChecker extends Application {
         timeline.play();
     }
 
-    // Метод для перевірки українського походження прізвища
-    private boolean checkUkrainianSurname(String surname) {
-        // Приклад: перевірка за суфіксом "ко"
-        return surname.endsWith("ко");
-
-    }
 
     public static void main(String[] args) {
         launch(args);
-
-        String pythonScriptPath = "C:\\Users\\KV-User\\Desktop\\surname_nationality\\Kursova_2\\server\\predict.py";
-        String argument = "Kravchuk";
-
-        try {
-            ProcessBuilder processBuilder = new ProcessBuilder("python", pythonScriptPath, argument);
-            Process p = processBuilder.start();
-
-            BufferedReader stdInput = new BufferedReader(new InputStreamReader(p.getInputStream()));
-            BufferedReader stdError = new BufferedReader(new InputStreamReader(p.getErrorStream()));
-
-            // Collect the output of the command
-            StringBuilder output = new StringBuilder();
-
-            // read the output from the command
-            System.out.println("Here is the standard output of the command:\n");
-            String s;
-            while ((s = stdInput.readLine()) != null) {
-                System.out.println(s);
-                output.append(s).append("\n");
-            }
-
-            // read any errors from the attempted command
-            System.out.println("Here is the standard error of the command (if any):\n");
-            while ((s = stdError.readLine()) != null) {
-                System.err.println(s);
-            }
-
-            // You can now use the 'output' StringBuilder as needed
-        } catch (IOException e) {
-            System.out.println("Exception happened - here's what I know: ");
-            e.printStackTrace();
-            System.exit(-1);
-        }
     }
 }
 
