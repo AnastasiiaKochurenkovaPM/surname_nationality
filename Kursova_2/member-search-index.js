@@ -1,0 +1,1 @@
+memberSearchIndex = [{"p":"com.example.kursova_2","c":"UkrainianSurnameChecker","l":"main(String[])","u":"main(java.lang.String[])"},{"p":"com.example.kursova_2","c":"UkrainianSurnameChecker","l":"start(Stage)","u":"start(javafx.stage.Stage)"},{"p":"com.example.kursova_2","c":"UkrainianSurnameChecker","l":"UkrainianSurnameChecker()","u":"%3Cinit%3E()"}];updateSearchResults();

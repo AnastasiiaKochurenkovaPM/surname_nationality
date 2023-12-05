@@ -2,7 +2,6 @@ from model import *
 from data import *
 import sys
 
-
 rnn = torch.load('C:\\Users\\KV-User\\Desktop\\surname_nationality\\Kursova_2\\server\\char-rnn-classification.pt')
 
 # Just return an output given a line

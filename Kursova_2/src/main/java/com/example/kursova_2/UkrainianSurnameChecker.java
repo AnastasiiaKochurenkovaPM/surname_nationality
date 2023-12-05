@@ -18,14 +18,10 @@ import javafx.scene.text.FontWeight;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Random;
-
-//import org.python.util.PythonInterpreter;
-
 
 public class UkrainianSurnameChecker extends Application {
 
@@ -51,7 +47,7 @@ public class UkrainianSurnameChecker extends Application {
             root.getChildren().add(circle);
 
             // Анімація руху кульок
-            animateCircleMovement(circle, 5000 + new Random().nextInt(5000), screenWidth, screenHeight);
+            animateCircleMovement(circle, 3000 + new Random().nextInt(5000), screenWidth, screenHeight);
         }
 
         // Додавання заголовка
@@ -70,30 +66,25 @@ public class UkrainianSurnameChecker extends Application {
         surnameField.setLayoutY(screenHeight/2.2);
         root.getChildren().add(surnameField);
 
-
         // Додавання кнопки "Перевірка"
         Button checkButton = new Button("Сheck");
-        checkButton.setStyle("-fx-background-radius: 40; -fx-pref-width: 100px; -fx-pref-height: 50px;");
+        checkButton.setStyle("-fx-background-radius: 40; -fx-pref-width: 100px; -fx-pref-height: 50px; -fx-background-color: rgba(51,102,153,0.83); -fx-text-fill: white; -fx-font-weight: bold");
+
+
+        checkButton.setOnMouseEntered(e -> {
+            checkButton.setStyle("-fx-background-radius: 40; -fx-pref-width: 100px; -fx-pref-height: 50px; -fx-background-color: #41b3d7; -fx-text-fill: white; -fx-font-weight: bold");
+        });
+
+
+        checkButton.setOnMouseExited(e -> {
+            checkButton.setStyle("-fx-background-radius: 40; -fx-pref-width: 100px; -fx-pref-height: 50px; -fx-background-color: rgba(51,102,153,0.83); -fx-text-fill: white; -fx-font-weight: bold");
+        });
         checkButton.setLayoutX(screenWidth/2.6);
         checkButton.setLayoutY(screenHeight/2.2);
         root.getChildren().add(checkButton);
 
         // Відображення результату перевірки
-//        Label resultLabel = new Label();
-//        resultLabel.setFont(Font.font("Comic Sans MS", 16));
-//        resultLabel.setTextFill(Color.BLACK);
-//        resultLabel.setLayoutX(screenWidth/5);
-//        resultLabel.setLayoutY(screenHeight/1.77);
-//        root.getChildren().add(resultLabel);
-
-
-        // Відображення результату перевірки
         Label resultLabel = new Label();
-//        resultLabel.setFont(Font.font("Arial", FontWeight.BOLD, 16));
-//        resultLabel.setTextFill(Color.BLACK);
-//        resultLabel.setLayoutX(20);
-//        resultLabel.setLayoutY(200);
-//        root.getChildren().add(resultLabel);
         resultLabel.setFont(Font.font("Comic Sans MS", 20));
         resultLabel.setTextFill(Color.web("#336699"));
         resultLabel.setLayoutX(screenWidth/10);
@@ -126,31 +117,16 @@ public class UkrainianSurnameChecker extends Application {
                 // Collect the output of the command
                 StringBuilder output = new StringBuilder();
 
-                // read the output from the command
-//                System.out.println("Here is the standard output of the command: for surname " + surname);
-//                resultLabelTitle.setText("Походження вашого прізвища:");
-//                String s;
-//
-//                while ((s = stdInput.readLine()) != null) {
-//
-//                    System.out.println(s);
-//                    resultLabel.setText(s);
-//
-//                }
                 resultLabelTitle.setText("Origin of your surname:");
                 StringBuilder stringBuilder = new StringBuilder();
 
                 String s;
                 while ((s = stdInput.readLine()) != null) {
-                    //System.out.println(s);
-//                    stringBuilder.append(s).append("\n");
                     stringBuilder.append(s).append("\n");
                     resultLabel.setText(stringBuilder.toString());
                 }
 
                 System.out.println(stringBuilder.append(s).append("\n"));
-
-
 
                 // read any errors from the attempted command
                 System.out.println("Here is the standard error of the command (if any):\n");
@@ -164,13 +140,11 @@ public class UkrainianSurnameChecker extends Application {
                 e.printStackTrace();
                 System.exit(-1);
             }
+        });
 
-
-//            if (isUkrainian) {
-//                resultLabel.setText("Так, прізвище українське");
-//            } else {
-//                resultLabel.setText("Ні, ваше прізвище має інакше походження");
-//            }
+        surnameField.setOnKeyTyped(event -> {
+            resultLabel.setText(""); // Очищення мітки з інформацією про походження
+            resultLabelTitle.setText(""); // Очищення заголовка мітки
         });
 
         primaryStage.setTitle("Checking the origin of the surname");
@@ -215,7 +189,6 @@ public class UkrainianSurnameChecker extends Application {
         timeline.setAutoReverse(true); // Рухаються в обидва напрямки
         timeline.play();
     }
-
 
     public static void main(String[] args) {
         launch(args);
