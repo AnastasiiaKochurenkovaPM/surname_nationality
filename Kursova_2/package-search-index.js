@@ -1,1 +1,0 @@
-packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"m":"com.example.kursova_2","l":"com.example.kursova_2"}];updateSearchResults();

@@ -1,1 +1,0 @@
-moduleSearchIndex = [{"l":"com.example.kursova_2"}];updateSearchResults();
