@@ -87,4 +87,4 @@ for epoch in range(1, n_epochs + 1):
     else:
         print(f"Warning: Loss is None for epoch {epoch}. Skipping.")        
 
-torch.save(rnn, 'char-rnn-classification2.pt')
+torch.save(rnn, 'char-rnn-classification7.pt')

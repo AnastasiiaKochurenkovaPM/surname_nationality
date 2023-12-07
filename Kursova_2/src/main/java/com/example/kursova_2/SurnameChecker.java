@@ -23,7 +23,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Random;
 
-public class UkrainianSurnameChecker extends Application {
+public class SurnameChecker extends Application {
 
     @Override
     public void start(Stage primaryStage) {
@@ -105,7 +105,6 @@ public class UkrainianSurnameChecker extends Application {
 
             String pythonScriptPath = "C:\\Users\\KV-User\\Desktop\\surname_nationality\\Kursova_2\\server\\predict.py";
             String argument = surname;
-
 
             try {
                 ProcessBuilder processBuilder = new ProcessBuilder("python", pythonScriptPath, argument);

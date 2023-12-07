@@ -1,3 +1,3 @@
 Manifest-Version: 1.0
-Main-Class: com.example.kursova_2.UkrainianSurnameChecker
+Main-Class: com.example.kursova_2.SurnameChecker
 
